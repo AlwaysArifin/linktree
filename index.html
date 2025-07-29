@@ -21,10 +21,9 @@
     <p class="animate-fade-up" style="animation-delay: 0.4s">🎮 Gamer | 💻 Dev | Pixel Vibes</p>
     
     <div class="links">
-      <a class="animate-fade-up" style="animation-delay: 1.4s">
-        <i class="fas fa-music"></i> music
+      <a id="music-toggle" class="animate-fade-up" style="animation-delay: 1.4s; cursor: pointer;">
+      <i class="fas fa-music"></i> Music (Play)
       </a>
-
     <div class="links">
       <a href="warning.html" class="animate-fade-up" style="animation-delay: 1.4s">
         <i class="fas fa-globe"></i> TOPUP IS HERE
@@ -53,27 +52,24 @@
   </div>
 
   <audio id="click-sound" src="klik.ogg" preload="auto"></audio>
-  <!-- Musik autoplay -->    <audio id="bg-music" src="musik.mp3" preload="auto" loop></audio>
-
+  <!-- Musik autoplay -->    
+  <audio id="bg-music" src="musik.mp3" preload="auto" loop></audio>
 <script>
   const bgMusic = document.getElementById("bg-music");
+  const musicToggle = document.getElementById("music-toggle");
 
-  const tryPlay = () => {
-    bgMusic.play().catch(err => {
-      console.warn("Gagal autoplay:", err);
-    });
-    // Hapus listener setelah musik diputar
-    document.removeEventListener("click", tryPlay);
-    document.removeEventListener("touchstart", tryPlay);
-  };
-
-  // Coba langsung saat load (jika browser mengizinkan)
-  window.addEventListener("load", () => {
-    bgMusic.play().catch(() => {
-      // Kalau autoplay gagal, tunggu klik/sentuh
-      document.addEventListener("click", tryPlay);
-      document.addEventListener("touchstart", tryPlay);
-    });
+  // Event untuk toggle musik
+  musicToggle.addEventListener("click", () => {
+    if (bgMusic.paused) {
+      bgMusic.play().then(() => {
+        musicToggle.innerHTML = '<i class="fas fa-music"></i> Music (Pause)';
+      }).catch(err => {
+        console.warn("Gagal memutar musik:", err);
+      });
+    } else {
+      bgMusic.pause();
+      musicToggle.innerHTML = '<i class="fas fa-music"></i> Music (Play)';
+    }
   });
 </script>
   <script src="script.js"></script>
